@@ -10,7 +10,7 @@
   --border: #e6e7e8;
   --text: #131313;
   --muted: #3a3a3a;
-  --dim: #7d8082;
+  --dim: #6b6e70; /* 4.9:1 sobre blanco — pasa WCAG AA en texto chico */
   --blue: #d2e9fe;
   --blue-2: #8fc5f2;
   --lime: #98fe00;
@@ -56,7 +56,7 @@ body {
   text-transform: uppercase;
   color: var(--dim);
 }
-.mono-label--dark { color: #7d8082; margin-bottom: 1rem; }
+.mono-label--dark { color: #9a9da0; margin-bottom: 1rem; }
 
 .skip-link {
   position: absolute;
