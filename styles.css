@@ -371,18 +371,25 @@ body.ready .line__inner { transform: translateY(0); }
   gap: 0.6rem;
 }
 .chat__body {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  /* altura reservada para la conversación completa: el card no "crece" */
-  min-height: 248px;
 }
-/* modo live: los mensajes van apareciendo secuencialmente */
-.chat--live .chat__msg,
-.chat--live .chat__typing { display: none; }
-.chat--live .chat__msg.is-shown,
+/* modo live: todos los mensajes ocupan su lugar definitivo desde el
+   inicio (visibility) — la caja nunca cambia de tamaño ni de posición */
+.chat--live .chat__msg { visibility: hidden; }
+.chat--live .chat__msg.is-shown {
+  visibility: visible;
+  animation: msgIn 0.45s var(--spring) both;
+}
+/* el typing flota sobre el hueco del próximo mensaje (JS lo posiciona) */
+.chat--live .chat__typing {
+  position: absolute;
+  visibility: hidden;
+}
 .chat--live .chat__typing.is-shown {
-  display: flex;
+  visibility: visible;
   animation: msgIn 0.45s var(--spring) both;
 }
 @keyframes msgIn {
@@ -390,7 +397,6 @@ body.ready .line__inner { transform: translateY(0); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 .chat__typing--out {
-  align-self: flex-end;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 4px;
 }

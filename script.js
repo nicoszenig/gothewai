@@ -148,7 +148,12 @@
         }, HOLD);
         return;
       }
-      typing.classList.toggle('chat__typing--out', msgs[i].classList.contains('chat__msg--out'));
+      const isOut = msgs[i].classList.contains('chat__msg--out');
+      typing.classList.toggle('chat__typing--out', isOut);
+      // flota sobre el hueco del mensaje que está por aparecer
+      typing.style.top = msgs[i].offsetTop + 'px';
+      typing.style.left = isOut ? 'auto' : '0';
+      typing.style.right = isOut ? '0' : 'auto';
       typing.classList.add('is-shown');
       setTimeout(() => {
         typing.classList.remove('is-shown');
