@@ -165,11 +165,12 @@ body.ready .appear { opacity: 1; transform: translate(0, 0); }
 }
 .btn__box--light { background: #fff; }
 .btn__arrow { transition: transform 0.3s var(--spring); }
+/* ±24px deja la flecha de 12px totalmente fuera de la caja de 30px */
 .btn__arrow--next {
   position: absolute;
-  transform: translate(-14px, 14px);
+  transform: translate(-24px, 24px);
 }
-.btn:hover .btn__arrow { transform: translate(14px, -14px); }
+.btn:hover .btn__arrow { transform: translate(24px, -24px); }
 .btn:hover .btn__arrow--next { transform: translate(0, 0); }
 .btn:focus-visible,
 a:focus-visible {
