@@ -72,37 +72,10 @@ body {
 .skip-link:focus { left: 0; }
 
 /* ============================================================
-   INTRO — dark overlay, phrases in sequence, then slide up
+   INTRO — los estilos y la secuencia de frases viven en el CSS
+   crítico inline del <head> (pintan antes de que llegue este
+   archivo). Acá no se redefine nada del intro.
    ============================================================ */
-.intro {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: var(--dark);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.9s cubic-bezier(0.7, 0, 0.2, 1);
-}
-.intro.is-leaving { transform: translateY(-100%); }
-.intro__phrase {
-  position: absolute;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
-  letter-spacing: -0.02em;
-  color: #fff;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.5s ease, transform 0.5s var(--spring);
-}
-.intro__phrase.is-on { opacity: 1; transform: translateY(0); }
-.intro__phrase.is-off { opacity: 0; transform: translateY(-10px); }
-.intro__phrase--logo { color: var(--blue); }
-.intro__phrase--logo sup { font-size: 0.5em; }
-
-/* body lock while intro plays */
-body.preload { overflow: hidden; }
 
 /* ============================================================
    APPEAR — hero entrance (fires when body gets .ready)

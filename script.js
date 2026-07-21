@@ -3,33 +3,46 @@
   const body = document.body;
 
   /* ============================================================
-     INTRO — phrases in sequence on dark, then slide up & reveal
+     INTRO — las frases las anima el CSS inline del <head> (pinta
+     sin esperar styles.css). El JS solo decide cuándo termina,
+     esperando a que styles.css esté aplicado para no mostrar la
+     página sin estilos. Se muestra una vez por sesión.
      ============================================================ */
   const intro = document.getElementById('intro');
-  const phrases = intro ? intro.querySelectorAll('.intro__phrase') : [];
+  const INTRO_TOTAL = 3300;
 
-  function finishIntro() {
-    if (!intro.parentNode) return;
-    intro.classList.add('is-leaving');
-    body.classList.remove('preload');
-    body.classList.add('ready');
-    setTimeout(() => intro.remove(), 1000);
+  // Espera window.__cssLoaded (seteado por el onload del preload de
+  // styles.css), con tope de 4s por si el CSS nunca llega
+  function whenCss(cb) {
+    const t0 = Date.now();
+    (function poll() {
+      if (window.__cssLoaded || Date.now() - t0 > 4000) return cb();
+      setTimeout(poll, 80);
+    })();
   }
 
-  if (!intro || prefersReduced) {
-    if (intro) intro.remove();
-    body.classList.remove('preload');
-    body.classList.add('ready');
-  } else {
-    const STEP = 950; // per-phrase screen time
-    phrases.forEach((p, i) => {
-      setTimeout(() => {
-        phrases.forEach((q) => q.classList.remove('is-on'));
-        if (i > 0) phrases[i - 1].classList.add('is-off');
-        p.classList.add('is-on');
-      }, 350 + i * STEP);
+  function finishIntro() {
+    if (!intro || !intro.parentNode) return;
+    whenCss(() => {
+      intro.classList.add('is-leaving');
+      body.classList.remove('preload');
+      body.classList.add('ready');
+      setTimeout(() => intro.remove(), 1000);
     });
-    setTimeout(finishIntro, 350 + phrases.length * STEP + 250);
+  }
+
+  let introSeen = false;
+  try { introSeen = !!sessionStorage.getItem('wai-intro'); } catch (e) {}
+
+  if (!intro || prefersReduced || introSeen) {
+    whenCss(() => {
+      if (intro) intro.remove();
+      body.classList.remove('preload');
+      body.classList.add('ready');
+    });
+  } else {
+    try { sessionStorage.setItem('wai-intro', '1'); } catch (e) {}
+    setTimeout(finishIntro, INTRO_TOTAL);
     intro.addEventListener('click', finishIntro);
   }
 
