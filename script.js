@@ -75,13 +75,16 @@
   }
 
   /* ============================================================
-     SCRAMBLE — mono labels decode from glyph noise on entry
+     SCRAMBLE — el texto se decodifica desde glifos aleatorios.
+     Reutilizable: labels al entrar en viewport y links del nav
+     en hover.
      ============================================================ */
   const GLYPHS = '>|:&_}{)(#%?+*=@0123456789';
   function scramble(el) {
-    if (el.dataset.done) return;
-    el.dataset.done = '1';
-    const original = el.textContent;
+    if (el.dataset.scrambling) return;
+    el.dataset.scrambling = '1';
+    const original = el.dataset.orig || el.textContent;
+    el.dataset.orig = original;
     const len = original.length;
     const DURATION = 900;
     const start = performance.now();
@@ -94,9 +97,71 @@
       }
       el.textContent = out;
       if (t < 1) requestAnimationFrame(tick);
-      else el.textContent = original;
+      else {
+        el.textContent = original;
+        delete el.dataset.scrambling;
+      }
     }
     requestAnimationFrame(tick);
+  }
+
+  // Scramble al pasar el mouse por los links del nav
+  if (!prefersReduced) {
+    document.querySelectorAll('.nav__links a').forEach((a) => {
+      a.addEventListener('mouseenter', () => scramble(a));
+    });
+  }
+
+  /* ============================================================
+     RELOJ — hora de Buenos Aires en vivo (nav y footer)
+     ============================================================ */
+  const clocks = document.querySelectorAll('.js-clock');
+  if (clocks.length) {
+    const fmt = new Intl.DateTimeFormat('es-AR', {
+      timeZone: 'America/Argentina/Buenos_Aires',
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
+    });
+    const tickClock = () => {
+      const t = fmt.format(new Date());
+      clocks.forEach((c) => { c.textContent = t; });
+    };
+    tickClock();
+    setInterval(tickClock, 1000);
+  }
+
+  /* ============================================================
+     CHAT — la conversación del hero se escribe sola, en loop
+     ============================================================ */
+  const chatEl = document.getElementById('chat');
+  if (chatEl && !prefersReduced) {
+    const msgs = Array.from(chatEl.querySelectorAll('.chat__msg'));
+    const typing = chatEl.querySelector('.chat__typing');
+    const TYPE = 1000, GAP = 550, HOLD = 4000;
+    chatEl.classList.add('chat--live');
+
+    function step(i) {
+      if (i >= msgs.length) {
+        typing.classList.remove('is-shown');
+        setTimeout(() => {
+          msgs.forEach((m) => m.classList.remove('is-shown'));
+          setTimeout(() => step(0), 800);
+        }, HOLD);
+        return;
+      }
+      typing.classList.toggle('chat__typing--out', msgs[i].classList.contains('chat__msg--out'));
+      typing.classList.add('is-shown');
+      setTimeout(() => {
+        typing.classList.remove('is-shown');
+        msgs[i].classList.add('is-shown');
+        setTimeout(() => step(i + 1), GAP);
+      }, TYPE);
+    }
+
+    // Arranca cuando el sitio ya se reveló (post-intro)
+    (function waitReady() {
+      if (body.classList.contains('ready')) setTimeout(() => step(0), 900);
+      else setTimeout(waitReady, 200);
+    })();
   }
 
   /* ============================================================

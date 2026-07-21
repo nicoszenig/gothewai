@@ -194,6 +194,8 @@ a:focus-visible {
   padding: 0.5rem 0;
 }
 .nav__links a:hover { color: var(--text); }
+.nav__meta { white-space: nowrap; }
+@media (max-width: 980px) { .nav__meta { display: none; } }
 
 /* ---------- burger (solo mobile) ---------- */
 .nav__burger {
@@ -298,6 +300,21 @@ body.menu-open .mobmenu__foot { opacity: 1; transform: translateY(0); }
   line-height: 1;
   letter-spacing: -0.04em;
 }
+/* reveal por líneas: cada línea emerge desde una máscara con recorte */
+.hero__title .line {
+  display: block;
+  overflow: hidden;
+  /* aire para los descendentes (y, p) sin que la máscara los recorte */
+  padding-bottom: 0.09em;
+  margin-bottom: -0.09em;
+}
+.line__inner {
+  display: inline-block;
+  transform: translateY(115%);
+  transition: transform 0.9s var(--spring);
+  transition-delay: var(--d, 0s);
+}
+body.ready .line__inner { transform: translateY(0); }
 .hero__card { width: min(300px, 100%); }
 .hero__bottom {
   display: flex;
@@ -352,6 +369,30 @@ body.menu-open .mobmenu__foot { opacity: 1; transform: translateY(0); }
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+}
+.chat__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  /* altura reservada para la conversación completa: el card no "crece" */
+  min-height: 248px;
+}
+/* modo live: los mensajes van apareciendo secuencialmente */
+.chat--live .chat__msg,
+.chat--live .chat__typing { display: none; }
+.chat--live .chat__msg.is-shown,
+.chat--live .chat__typing.is-shown {
+  display: flex;
+  animation: msgIn 0.45s var(--spring) both;
+}
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.chat__typing--out {
+  align-self: flex-end;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 4px;
 }
 .chat__head {
   display: flex;
@@ -746,4 +787,6 @@ body.menu-open .mobmenu__foot { opacity: 1; transform: translateY(0); }
   .btn__arrow { transition: none; }
   .radar-sweep, .radar-dot, .radar-ping, .art-breathe, .art-float,
   .art-beam, .art-block, .art-orbit, .art-satellite { animation: none; }
+  .line__inner { transform: none; transition: none; }
+  .chat--live .chat__msg.is-shown, .chat--live .chat__typing.is-shown { animation: none; }
 }

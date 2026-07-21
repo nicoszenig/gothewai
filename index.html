@@ -63,7 +63,7 @@
   <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet';window.__cssLoaded=1">
   <noscript>
     <link rel="stylesheet" href="styles.css">
-    <style>.intro{display:none}body.preload{overflow:auto}body.preload main,body.preload .nav,body.preload .footer{display:block}.appear,.reveal{opacity:1!important;transform:none!important}</style>
+    <style>.intro{display:none}body.preload{overflow:auto}body.preload main,body.preload .nav,body.preload .footer{display:block}.appear,.reveal{opacity:1!important;transform:none!important}.line__inner{transform:none!important}</style>
   </noscript>
 
   <script type="application/ld+json">
@@ -103,6 +103,7 @@
         <a href="#proceso">Cómo trabajamos</a>
         <a href="#contacto">Contacto</a>
       </nav>
+      <span class="nav__meta mono-label" aria-hidden="true">BUE <span class="js-clock">--:--:--</span></span>
       <a class="btn btn--dark" href="https://wa.me/5491157045808?text=Hola%2C%20estoy%20interesado%20en%20los%20servicios%20de%20The%20Wai" target="_blank" rel="noopener">
         Hablemos
         <span class="btn__box" aria-hidden="true">
@@ -142,19 +143,22 @@
       <div class="container">
         <div class="hero__top">
           <h1 class="hero__title">
-            <span class="appear" style="--d:.1s">El futuro de</span><br>
-            <span class="appear" style="--d:.18s">tu empresa</span><br>
-            <span class="appear" style="--d:.26s">ya está acá.</span>
+            <span class="line"><span class="line__inner" style="--d:.1s">El futuro de</span></span>
+            <span class="line"><span class="line__inner" style="--d:.2s">tu empresa</span></span>
+            <span class="line"><span class="line__inner" style="--d:.3s">ya está acá.</span></span>
           </h1>
           <div class="hero__card appear appear--x" style="--d:.4s" aria-hidden="true">
-            <div class="chat">
+            <div class="chat" id="chat">
               <div class="chat__head">
                 <span class="chat__dot"></span>
                 <span class="chat__name">Asistente The WAI</span>
               </div>
-              <div class="chat__msg chat__msg--in">¿Cuánto tiempo pierde tu equipo en tareas repetitivas?</div>
-              <div class="chat__msg chat__msg--out">Demasiado. ¿Se puede automatizar?</div>
-              <div class="chat__typing"><span></span><span></span><span></span></div>
+              <div class="chat__body">
+                <div class="chat__msg chat__msg--in">¿Cuánto tiempo pierde tu equipo en tareas repetitivas?</div>
+                <div class="chat__msg chat__msg--out">Demasiado. ¿Se puede automatizar?</div>
+                <div class="chat__msg chat__msg--in">Sí. Diagnóstico en días, resultados medibles desde el día uno.</div>
+                <div class="chat__typing"><span></span><span></span><span></span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -406,7 +410,7 @@
       </div>
       <div class="footer__bar">
         <span class="footer__logo">The WAI<sup>®</sup></span>
-        <span class="mono-label mono-label--dark">2026 — Buenos Aires, Argentina</span>
+        <span class="mono-label mono-label--dark">2026 — BUE 34.6°S 58.4°W — <span class="js-clock">--:--:--</span> GMT-3</span>
       </div>
     </div>
     <div class="footer__glow" aria-hidden="true"></div>
