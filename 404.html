@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 — The WAI</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#131313">
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100svh;
+      background: #131313;
+      color: #fff;
+      font-family: 'Satoshi', 'Inter', -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    ::selection { background: #98fe00; color: #131313; }
+    .glow {
+      position: absolute;
+      left: 50%;
+      bottom: -220px;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 380px;
+      background: radial-gradient(ellipse at center, rgba(143, 197, 242, 0.35), transparent 65%);
+      pointer-events: none;
+    }
+    .wrap { position: relative; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+    .label {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #9a9da0;
+    }
+    h1 {
+      font-weight: 700;
+      font-size: clamp(6rem, 22vw, 12rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+    h1 .dot { color: #d2e9fe; }
+    p { color: #b4b6b8; max-width: 34ch; line-height: 1.6; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #fff;
+      color: #131313;
+      font-weight: 500;
+      font-size: 1rem;
+      text-decoration: none;
+      padding: 0.55rem 0.6rem 0.55rem 1.3rem;
+      border-radius: 8px;
+      min-height: 50px;
+      transition: background-color 0.25s ease;
+      margin-top: 0.5rem;
+    }
+    .btn:hover { background: #d2e9fe; }
+    .btn__box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      background: #131313;
+      color: #fff;
+    }
+    .fade { opacity: 0; transform: translateY(16px); animation: in 0.8s cubic-bezier(0.3, 1.1, 0.4, 1) forwards; }
+    .fade:nth-child(2) { animation-delay: 0.08s; }
+    .fade:nth-child(3) { animation-delay: 0.16s; }
+    .fade:nth-child(4) { animation-delay: 0.24s; }
+    @keyframes in { to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { .fade { animation: none; opacity: 1; transform: none; } }
+  </style>
+</head>
+<body>
+  <div class="glow" aria-hidden="true"></div>
+  <main class="wrap">
+    <span class="label fade" id="lbl">/Página no encontrada</span>
+    <h1 class="fade">404<span class="dot">.</span></h1>
+    <p class="fade">Esta página no existe. El futuro de tu empresa, en cambio, ya está acá.</p>
+    <a class="btn fade" href="/">
+      Volver al inicio
+      <span class="btn__box" aria-hidden="true">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 7L7 17M7 17h9M7 17V8"/></svg>
+      </span>
+    </a>
+  </main>
+  <script>
+    // Efecto scramble en el label, como en el sitio
+    (function () {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var el = document.getElementById('lbl');
+      var orig = el.textContent;
+      var GLYPHS = '>|:&_}{)(#%?+*=@0123456789';
+      var start = null;
+      function tick(now) {
+        if (!start) start = now;
+        var t = Math.min((now - start) / 900, 1);
+        var solved = Math.floor(t * orig.length);
+        var out = orig.slice(0, solved);
+        for (var i = solved; i < orig.length; i++) {
+          out += orig[i] === ' ' ? ' ' : GLYPHS[(Math.random() * GLYPHS.length) | 0];
+        }
+        el.textContent = out;
+        if (t < 1) requestAnimationFrame(tick);
+        else el.textContent = orig;
+      }
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>

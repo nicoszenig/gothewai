@@ -55,6 +55,26 @@
   onScroll();
 
   /* ============================================================
+     MENU MOBILE — hamburguesa, overlay, cierre por link/Escape
+     ============================================================ */
+  const burger = document.getElementById('burger');
+  const mobmenu = document.getElementById('mobmenu');
+  if (burger && mobmenu) {
+    const setMenu = (open) => {
+      body.classList.toggle('menu-open', open);
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    };
+    burger.addEventListener('click', () => setMenu(!body.classList.contains('menu-open')));
+    mobmenu.querySelectorAll('a').forEach((a) =>
+      a.addEventListener('click', () => setMenu(false))
+    );
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setMenu(false);
+    });
+  }
+
+  /* ============================================================
      SCRAMBLE — mono labels decode from glyph noise on entry
      ============================================================ */
   const GLYPHS = '>|:&_}{)(#%?+*=@0123456789';

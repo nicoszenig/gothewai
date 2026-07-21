@@ -57,7 +57,7 @@
     body.preload { overflow: hidden; }
     /* Sin layout durante el preload: evita layout shifts (CLS) mientras
        styles.css carga async detrás del intro */
-    body.preload main, body.preload .nav, body.preload .footer { display: none; }
+    body.preload main, body.preload .nav, body.preload .footer, body.preload .mobmenu { display: none; }
     @media (prefers-reduced-motion: reduce) { .intro { display: none; } }
   </style>
   <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet';window.__cssLoaded=1">
@@ -110,8 +110,31 @@
           <svg class="btn__arrow btn__arrow--next" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
         </span>
       </a>
+      <button class="nav__burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobmenu">
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
+
+  <!-- ============ MENU MOBILE ============ -->
+  <div class="mobmenu" id="mobmenu">
+    <nav class="mobmenu__links" aria-label="Menú móvil">
+      <a href="#servicios"><span class="mobmenu__num">/01</span>Servicios</a>
+      <a href="#proceso"><span class="mobmenu__num">/02</span>Cómo trabajamos</a>
+      <a href="#contacto"><span class="mobmenu__num">/03</span>Contacto</a>
+    </nav>
+    <div class="mobmenu__foot">
+      <a class="btn btn--light mobmenu__cta" href="https://wa.me/5491157045808?text=Hola%2C%20estoy%20interesado%20en%20los%20servicios%20de%20The%20Wai" target="_blank" rel="noopener">
+        Hablemos por WhatsApp
+        <span class="btn__box" aria-hidden="true">
+          <svg class="btn__arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+          <svg class="btn__arrow btn__arrow--next" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+        </span>
+      </a>
+      <span class="mono-label mono-label--dark">Buenos Aires, Argentina — 2026</span>
+    </div>
+  </div>
 
   <main id="main">
     <!-- ============ HERO ============ -->
