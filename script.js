@@ -143,8 +143,9 @@
       if (i >= msgs.length) {
         typing.classList.remove('is-shown');
         setTimeout(() => {
-          msgs.forEach((m) => m.classList.remove('is-shown'));
-          setTimeout(() => step(0), 800);
+          // el primer mensaje queda fijo; solo se reinician las respuestas
+          msgs.slice(1).forEach((m) => m.classList.remove('is-shown'));
+          setTimeout(() => step(1), 800);
         }, HOLD);
         return;
       }
@@ -162,9 +163,10 @@
       }, TYPE);
     }
 
-    // Arranca cuando el sitio ya se reveló (post-intro)
+    // Arranca cuando el sitio ya se reveló (post-intro); el primer
+    // mensaje ya está visible, se animan solo las respuestas
     (function waitReady() {
-      if (body.classList.contains('ready')) setTimeout(() => step(0), 900);
+      if (body.classList.contains('ready')) setTimeout(() => step(1), 900);
       else setTimeout(waitReady, 200);
     })();
   }
