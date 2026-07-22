@@ -314,7 +314,7 @@ body.menu-open .mobmenu__foot { opacity: 1; transform: translateY(0); }
   transition-delay: var(--d, 0s);
 }
 body.ready .line__inner { transform: translateY(0); }
-.hero__card { width: min(380px, 100%); justify-self: end; }
+.hero__card { width: min(450px, 100%); justify-self: end; }
 .hero__lead {
   color: var(--muted);
   font-size: clamp(1rem, 1.3vw, 1.15rem);
@@ -356,18 +356,20 @@ body.ready .line__inner { transform: translateY(0); }
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 1.2rem;
+  padding: 1.5rem;
   box-shadow: 0 20px 50px -20px rgba(19, 19, 19, 0.15);
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 0.9rem;
 }
 .chat__body {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.85rem;
 }
+/* en modo live se reserva la fila del typing final persistente */
+.chat--live .chat__body { padding-bottom: 3.1rem; }
 /* modo live: todos los mensajes ocupan su lugar definitivo desde el
    inicio (visibility) — la caja nunca cambia de tamaño ni de posición */
 .chat--live .chat__msg { visibility: hidden; }
@@ -388,25 +390,36 @@ body.ready .line__inner { transform: translateY(0); }
   from { opacity: 0; transform: translateY(8px) scale(0.97); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
+/* typing del lado del cliente: burbuja azul */
 .chat__typing--out {
+  background: var(--blue);
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 4px;
 }
+.chat__typing--out span { background: rgba(19, 19, 19, 0.4); }
+/* sin JS el chat queda estático: los 3 mensajes + typing azul al final */
+.chat:not(.chat--live) .chat__typing {
+  background: var(--blue);
+  align-self: flex-end;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 4px;
+}
+.chat:not(.chat--live) .chat__typing span { background: rgba(19, 19, 19, 0.4); }
 .chat__head {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding-bottom: 0.6rem;
+  gap: 0.55rem;
+  padding-bottom: 0.8rem;
   border-bottom: 1px solid var(--surface-2);
 }
-.chat__dot { width: 7px; height: 7px; border-radius: 50%; background: #34c759; }
-.chat__name { font-size: 0.85rem; font-weight: 600; }
+.chat__dot { width: 8px; height: 8px; border-radius: 50%; background: #34c759; }
+.chat__name { font-size: 0.9rem; font-weight: 600; }
 .chat__msg {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  padding: 0.65rem 0.9rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  padding: 0.75rem 1rem;
   border-radius: 12px;
-  max-width: 90%;
+  max-width: 88%;
 }
 /* el primer mensaje ya está escrito desde el arranque */
 .chat--live .chat__msg:first-child { visibility: visible; }

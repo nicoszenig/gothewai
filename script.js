@@ -130,23 +130,26 @@
   }
 
   /* ============================================================
-     CHAT — la conversación del hero se escribe sola, en loop
+     CHAT — la conversación se escribe una sola vez: el primer
+     mensaje ya está puesto, aparecen las dos respuestas y al final
+     queda fijo un typing azul (el cliente por escribir de nuevo)
      ============================================================ */
   const chatEl = document.getElementById('chat');
   if (chatEl && !prefersReduced) {
     const msgs = Array.from(chatEl.querySelectorAll('.chat__msg'));
     const typing = chatEl.querySelector('.chat__typing');
-    const TYPE = 1000, GAP = 550, HOLD = 4000;
+    const TYPE = 1000, GAP = 550;
     chatEl.classList.add('chat--live');
 
     function step(i) {
       if (i >= msgs.length) {
-        typing.classList.remove('is-shown');
-        setTimeout(() => {
-          // el primer mensaje queda fijo; solo se reinician las respuestas
-          msgs.slice(1).forEach((m) => m.classList.remove('is-shown'));
-          setTimeout(() => step(1), 800);
-        }, HOLD);
+        // estado final: typing azul persistente debajo del último mensaje
+        const last = msgs[msgs.length - 1];
+        typing.classList.add('chat__typing--out');
+        typing.style.top = last.offsetTop + last.offsetHeight + 12 + 'px';
+        typing.style.left = 'auto';
+        typing.style.right = '0';
+        typing.classList.add('is-shown');
         return;
       }
       const isOut = msgs[i].classList.contains('chat__msg--out');
@@ -163,8 +166,7 @@
       }, TYPE);
     }
 
-    // Arranca cuando el sitio ya se reveló (post-intro); el primer
-    // mensaje ya está visible, se animan solo las respuestas
+    // Arranca cuando el sitio ya se reveló (post-intro)
     (function waitReady() {
       if (body.classList.contains('ready')) setTimeout(() => step(1), 900);
       else setTimeout(waitReady, 200);
